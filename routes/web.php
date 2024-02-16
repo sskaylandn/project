@@ -115,6 +115,8 @@ Route::middleware(['auth'])->group(function(){
     // routing akuisisi user
     // masuk ke halaman index akuisisi user
     Route::get('user/index-akuisisi', [AkuisisiController::class, 'index']);
+    // masuk ke halaman detail akuisisi user
+    Route::get('user/detail-akuisisi/{id}', [AkuisisiController::class, 'detail']);
     // masuk ke halaman form user
     Route::get('user/create-akuisisi', [AkuisisiController::class, 'create']);
     // submit form yang telah di isi
