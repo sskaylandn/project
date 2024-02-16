@@ -15,6 +15,6 @@ class Akuisisi extends Model
     public function detailakuisisi ()
     {
         //return $this->belongsTo('Detailakuisisi')->select(['id_detailakuisisi']);
-        return $this->hasMany(Detailakuisisi::class);
+        return $this->hasMany('Detailakuisisi', 'id_akuisisi');
     }
 }

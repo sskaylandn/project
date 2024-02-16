@@ -16,4 +16,4 @@ class restore extends Model
     {
         return $this->belongsTo(backup::class);
     }
-}
+} 

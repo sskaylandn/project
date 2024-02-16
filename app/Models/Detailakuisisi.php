@@ -14,7 +14,6 @@ class Detailakuisisi extends Model
     ];
     public function akuisisi ()
     {
-        return $this->belongsTo('Akuisisi', 'id_akuisisi')->select(['id_akuisisi', 'id_pemegang', '']);
-        //return $this->belongsTo(Akuisisi::class);
+       return $this->belongsTo(detailakuisisi::class);
     }
 }
