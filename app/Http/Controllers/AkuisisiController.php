@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Akuisisi;
+use App\Models\Detailakuisisi;
 use Illuminate\Http\Request;
 
 class AkuisisiController extends Controller
@@ -11,17 +13,18 @@ class AkuisisiController extends Controller
      */
     public function index()
     {
+        $data_akuisisi = Akuisisi::all();
         if(Auth()->user()->role == 'admin'){
             
             return view('admin.akuisisi.index',[
                 'title'=>'Riwayat Monitoring'
-            ]);
+            ],compact('data_akuisisi'));
         }
         elseif(Auth()->user()->role == 'user'){
-            
+            $data_akuisisi = Akuisisi::all();
             return view('user.akuisisi.index',[
                 'title'=>'Riwayat Monitoring'  
-            ]);
+            ],compact('data_akuisisi'));
         }
     }
 
@@ -33,6 +36,15 @@ class AkuisisiController extends Controller
         return view('user.akuisisi.create',[
             'title'=>'Monitoring Perangkat User'
         ]);
+    }
+
+    public function detail(string $id)
+    {
+        $akuisisi = Akuisisi::findorfail($id);
+        $detailakuisisi = Detailakuisisi::all();
+        return view('user.akuisisi.detail',[
+            'title'=>'Monitoring Perangkat User'
+        ],compact('akuisisi','detailakuisisi'));
     }
 
     public function aset()
