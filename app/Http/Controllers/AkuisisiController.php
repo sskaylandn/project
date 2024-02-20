@@ -41,12 +41,14 @@ class AkuisisiController extends Controller
     public function detail(string $id)
     {
         $akuisisi = Akuisisi::findorfail($id);
-        $detailakuisisi = Detailakuisisi::whereExists(function ($query) use($id) {
-                $query->select(Detailakuisisi::raw($id))
-                     ->where('detailakuisisi.id_akuisisi', $id)
-                     ;}) ->get();
-       
 
+        // One To Many Relationship pake with(nama_function_di_model)
+        $detailakuisisi = Detailakuisisi::with('pemegang_aset')
+        ->whereExists(function ($query) use ($id) {
+            $query->select(Detailakuisisi::raw($id))
+                ->where('detailakuisisi.id_akuisisi', $id);
+        })->get();
+    
         return view('user.akuisisi.detail',[
             'title'=>'Monitoring Perangkat User'
         ],compact('akuisisi','detailakuisisi'));

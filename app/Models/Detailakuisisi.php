@@ -16,4 +16,9 @@ class Detailakuisisi extends Model
     {
        return $this->belongsTo(detailakuisisi::class);
     }
+
+    // Function baru buat one to many relationship. ini function yang dipake `with`
+    public function pemegang_aset(){
+        return $this->hasMany(Pemegangaset::class,'id_pemegang'); 
+    }
 }

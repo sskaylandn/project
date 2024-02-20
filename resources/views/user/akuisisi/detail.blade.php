@@ -60,8 +60,10 @@
                                 @foreach ($detailakuisisi as $items)
                                 <tr>
                                     <td>{{$no++}}</td>
-                                    <td>{{$items->id_pemegang}}</td>
-                                    <td></td>
+                                    @foreach ($items->pemegang_aset as $pemegang)
+                                      <td>{{$pemegang->nama_pemegang}}</td>
+                                      <td>{{$pemegang->nama_perangkat}}</td>
+                                    @endforeach
                                     <td>{{$items->akses_user}}</td>
                                     <td>{{$items->power_lock}}</td>
                                     <td>{{$items->sinkronisasi_waktu}}</td>
