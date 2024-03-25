@@ -11,10 +11,12 @@ class Akuisisi extends Model
     protected $primaryKey = 'id_akuisisi';
     protected $fillable = [
         'id_akuisisi','tgl_efektif','nomor_dokumen','kategori_dokumen','versi'
-    ];
+    ]; 
     public function detailakuisisi ()
     {
         //return $this->belongsTo('Detailakuisisi')->select(['id_detailakuisisi']);
-        return $this->hasMany('Detailakuisisi', 'id_akuisisi');
+       // return $this->hasMany('Detailakuisisi', 'id_akuisisi');
+       //return $this->hasMany(restore::class);
+       return $this->belongsTo(detailakuisisi::class);
     }
 }

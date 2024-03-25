@@ -29,32 +29,86 @@ class AkuisisiController extends Controller
         }
     }
 
-    /**
+    public function indexdetail()
+    {
+        $data_akuisisi = Akuisisi::all();
+        if(Auth()->user()->role == 'admin'){
+            
+            return view('admin.akuisisi.indexdetail',[
+                'title'=>'Riwayat Monitoring'
+            ],compact('data_akuisisi'));
+        }
+        elseif(Auth()->user()->role == 'user'){
+            $data_akuisisi = Akuisisi::all();
+            return view('user.akuisisi.indexdetail',[
+                'title'=>'Riwayat Monitoring'  
+            ],compact('data_akuisisi'));
+        }
+    }
+
+    /** 
      * Show the form for creating a new resource.
      */
     public function create()
     {
+        $aset = Pemegangaset::all();
         return view('user.akuisisi.create',[
             'title'=>'Monitoring Perangkat User'
-        ]);
+        ],compact('aset'));
     }
 
     public function detail(string $id)
     {
         $akuisisi = Akuisisi::findorfail($id);
-
+       //$detailakuisisi = Detailakuisisi::findorfail($id);
         // One To Many Relationship pake with(nama_function_di_model)
-        $detailakuisisi = Detailakuisisi::with('pemegang_aset')
-        ->whereExists(function ($query) use ($id) {
-            $query->select(Detailakuisisi::raw($id))
-                ->where('detailakuisisi.id_akuisisi', $id);
-        })->get();
-    
+      $detailakuisisi = Detailakuisisi::with('pemegang_aset')
+       ->whereExists(function ($query) use ($id) {
+           $query->select(Detailakuisisi::raw($id))
+               ->where('detailakuisisi.id_akuisisi', $id);
+       })->get();
+     
         return view('user.akuisisi.detail',[
             'title'=>'Monitoring Perangkat User'
         ],compact('akuisisi','detailakuisisi'));
     }
 
+    public function tambahdetail(string $id)
+    {
+        $akuisisi = Akuisisi::findorfail($id);
+        $aset = Pemegangaset::all();
+       //$detailakuisisi = Detailakuisisi::findorfail($id);
+        // One To Many Relationship pake with(nama_function_di_model)
+      //$detailakuisisi = Detailakuisisi::with('pemegang_aset')
+      // ->whereExists(function ($query) use ($id) {
+       //    $query->select(Detailakuisisi::raw($id))
+       //        ->where('detailakuisisi.id_akuisisi', $id);
+     //  })->get();
+     
+        return view('user.akuisisi.createdetail',[
+            'title'=>'Monitoring Perangkat User'
+        ],compact('akuisisi','aset'));
+    }
+ 
+    public function storedetail(Request $request, string $id)
+    {
+        Detailakuisisi::create([
+            'nama_pemegang' => $request->nama_pemegang,
+            'nama_perangkat' => $request->nama_perangkat,
+            'id_akuisisi' => $request->$id,
+            'akses_user'=>$request->akses_user,
+            'power_lock'=>$request->power_lock,
+            'sinkronisasi_waktu'=>$request->sinkronisasi_waktu,
+            'antivirus'=>$request->antivirus,
+            'update_os'=>$request->update_os,
+            'scan_malware'=>$request->scan_malware,
+            'versi_os'=>$request->versi_os,
+            'keterangan'=>$request->keterangan,
+            
+        ]);
+
+        return redirect('user/index-akuisisi');
+    }
     public function aset()
     {
         $data_aset = Pemegangaset::all();
@@ -101,7 +155,20 @@ class AkuisisiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Akuisisi::create([
+            'tgl_efektif' => $request->tgl_efektif,
+            'nomor_dokumen' => $request->nomor_dokumen,
+            'kategori_dokumen' => $request->kategori_dokumen,
+            'versi' => $request->versi,
+            
+         ]); 
+  
+         if (Auth()->user()->role == 'admin') {
+             return redirect('admin/index-akuisisi');
+         } 
+         elseif(Auth()->user()->role == 'user'){
+             return redirect('user/index-akuisisi');
+         }
     }
 
     /**

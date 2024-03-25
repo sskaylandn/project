@@ -157,6 +157,11 @@
                     </a>
                   </li>
                   <li class="menu-item">
+                    <a href="{{ url('user/detailmonitoring-akuisisi') }}" class="menu-link">
+                      <div data-i18n="Account">Formulir Detail Monitoring</div>
+                    </a>
+                  </li>
+                  <li class="menu-item">
                     <a href="{{ url('user/index-akuisisi') }}" class="menu-link">
                       <div data-i18n="Notifications">Riwayat</div>
                     </a>

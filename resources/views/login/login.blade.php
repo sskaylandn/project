@@ -140,8 +140,8 @@
                       id="password"
                       class="form-control"
                       name="password"
-                      placeholder="Masukkan Password/>
-                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                      placeholder="Masukkan Password"
+                  <i class="bx bx-hide"></i>
                   </div>
                 </div>
                 <div class="mb-3">

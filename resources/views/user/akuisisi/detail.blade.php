@@ -12,7 +12,7 @@
                     <div class="card-header d-flex align-items-center justify-content-between">
                       <h5 class="mb-0"></h5>
                       <small class="text-muted float-end">{{ $title }}</small>
-                    </div>
+                    </div> 
                     <div class="card-body">
                         <div class="row ">
                             <label class="col-sm-2 col-form-label" for="basic-default-name">Tanggal Efektif</label>
@@ -38,6 +38,10 @@
                                 <label class="col-sm-7 col-form-label" for="basic-default-name">:  {{$akuisisi->versi}}</label>
                             </div>
                           </div>
+                          <br>
+                          <div class="row">
+                            <label class="col-form-label" for="basic-default-name">(Jika data monitoring masih kosong, silakan isi terlebih dahulu di menu "Formulir Detail Monitoring")</label> 
+                          </div>
                           <div class="table-responsive text-nowrap">
                             <table class="table">
                               <thead>
@@ -60,10 +64,8 @@
                                 @foreach ($detailakuisisi as $items)
                                 <tr>
                                     <td>{{$no++}}</td>
-                                    @foreach ($items->pemegang_aset as $pemegang)
-                                      <td>{{$pemegang->nama_pemegang}}</td>
-                                      <td>{{$pemegang->nama_perangkat}}</td>
-                                    @endforeach
+                                    <td>{{$items->nama_pemegang}}</td>
+                                    <td>{{$items->nama_perangkat}}</td>
                                     <td>{{$items->akses_user}}</td>
                                     <td>{{$items->power_lock}}</td>
                                     <td>{{$items->sinkronisasi_waktu}}</td>
