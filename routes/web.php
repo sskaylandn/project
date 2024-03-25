@@ -182,9 +182,25 @@ Route::middleware(['auth'])->group(function(){
     Route::get('admin/aset-akuisisi', [AkuisisiController::class, 'aset']);
     //masuk ke halaman akuisisi-tambah data aset admin
     Route::get('admin/tambahaset-akuisisi', [AkuisisiController::class, 'tambahaset']);
+    Route::post('admin/storeaset-akuisisi', [AkuisisiController::class, 'storeaset']);
+     // masuk ke halaman editaset akuisisi
+     Route::get('admin/edit-aset/{id}', [AkuisisiController::class, 'editaset']);
+     Route::post('admin/update-aset/{id}', [AkuisisiController::class, 'updateaset']);
+      // menghapus pemegang-aset akuisisi
+     Route::delete('admin/deleteaset-akuisisi/{id}', [AkuisisiController::class, 'destroyaset']);
     // masuk ke halaman index fisik admin
     Route::get('admin/index-fisik', [FisikController::class, 'index']);
+    // masuk ke halaman edit fisik
+    Route::get('admin/edit-fisik/{id}', [FisikController::class, 'edit']);
+    Route::post('admin/update-fisik/{id}', [FisikController::class, 'update']);
+       // menghapus data fisik
+       Route::delete('admin/delete-fisik/{id}', [FisikController::class, 'destroy']);
      // masuk ke halaman index whitelist admin
      Route::get('admin/index-whitelist', [WhitelistController::class, 'index']);
+       // masuk ke halaman edit whitelist
+    Route::get('admin/edit-whitelist/{id}', [WhitelistController::class, 'edit']);
+    Route::post('admin/update-whitelist/{id}', [WhitelistController::class, 'update']);
+       // menghapus data whitelist
+       Route::delete('admin/delete-whitelist/{id}', [WhitelistController::class, 'destroy']);
 });
 

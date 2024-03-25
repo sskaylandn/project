@@ -15,7 +15,7 @@ class WhitelistController extends Controller
         $data_whitelist = Whitelist::all();
         if(Auth()->user()->role == 'admin'){
             
-            return view('admin.whitelist.index',[
+            return view('admin.whitelist.index',[ 
                 'title'=>'Software Whitelist'
             ],compact('data_whitelist'));
         }
@@ -42,7 +42,18 @@ class WhitelistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Whitelist::create([
+            'jenis_software' => $request->jenis_software,
+            'nama_software' => $request->nama_software,
+            
+         ]); 
+  
+         if (Auth()->user()->role == 'admin') {
+             return redirect('admin/index-whitelist');
+         } 
+         elseif(Auth()->user()->role == 'user'){
+             return redirect('user/index-whitelist');
+         }
     }
 
     /**
@@ -58,7 +69,19 @@ class WhitelistController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        
+        if(Auth()->user()->role == 'admin'){
+            $whitelist = Whitelist::findorfail($id);
+            return view('admin.whitelist.edit',[
+                'title'=>'Edit Data Software Whitelist'
+            ],compact('whitelist'));
+        }
+        elseif(Auth()->user()->role == 'user'){
+            $whitelist = Whitelist::findorfail($id);
+            return view('user.whitelist.edit',[
+                'title'=>'Edit Data Software Whitelist'  
+            ],compact('whitelist'));
+        }
     }
 
     /**
@@ -66,7 +89,16 @@ class WhitelistController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $whitelist = Whitelist::findorfail($id);
+         $whitelist->update($request->all());
+
+         if (Auth()->user()->role == 'admin') {
+            return redirect('admin/index-whitelist');
+        } 
+        elseif(Auth()->user()->role == 'user'){
+            return redirect('user/index-whitelist');
+        }
+         
     }
 
     /**
@@ -74,6 +106,8 @@ class WhitelistController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $whitelist = Whitelist::findorfail($id);
+        $whitelist->delete();
+        return redirect('admin/index-whitelist');
     }
 }

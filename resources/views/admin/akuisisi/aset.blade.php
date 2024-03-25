@@ -19,22 +19,25 @@
                   <th>No</th>
                   <th>Nama Pemegang Aset</th>
                   <th>Nama Perangkat</th>
-                  <th></th>
+                  <th>Aksi</th>
                 </tr>
               </thead>
               <tbody class="table-border-bottom-0">
+              @php $no = 1; @endphp
+                  @foreach ($data_aset as $item)
                 <tr>
-                  <td>
+                  <td>{{$no++}}</td>
+                  <td>{{$item->nama_pemegang}}</td>
+                  <td>{{$item->nama_perangkat}}</td>
+                  <td><a href="{{ url('admin/edit-aset', $item->id_pemegang) }}"><span class="btn btn-primary rounded-2 fw-semibold">Edit</span></a>
+                  <form action="{{ url('admin/deleteaset-akuisisi', $item->id_pemegang) }}" class="mt-3" method="POST">
+                        @csrf
+                        @method("DELETE")
+                        <input type="submit" class="btn btn-danger rounded-2 fw-semibold" value="Delete">
+                    </form>              
                   </td>
-                  <td>
-                  </td>
-                  <td>
-                  </td>
-                  <td>
-                  </td>
-                  <td>
-                </td>
                 </tr>
+                @endforeach
               </tbody>
             </table>
         </div>

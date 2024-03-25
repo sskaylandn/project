@@ -19,27 +19,31 @@
                     <th>Tindak Lanjut</th>
                     <th>PIC</th>
                     <th>Keterangan</th>
+                    <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
+                  @php $no = 1; @endphp
+                  @foreach ($data_fisik as $item)
                   <tr>
-                    <td>
+                    <td>{{$no++}}</td>
+                    <td>{{$item->nama_fisik}}</td>
+                    <td><center>{{$item->jumlah_fisik}} Unit<center></td>
+                    <td><center>{{$item->tglperiksa_fisik}}</center></td>
+                    <td>{{$item->status_fisik}}</td>
+                    <td>{{$item->tindak_lanjut}}</td>
+                    <td>{{$item->pic_fisik}}</td>
+                    <td>{{$item->keterangan}}</td>
+                    <td><a href="{{ url('admin/edit-fisik', $item->id_fisik) }}"><span class="btn btn-primary rounded-2 fw-semibold">Edit</span></a>
+                    <form action="{{ url('admin/delete-fisik', $item->id_fisik) }}" class="mt-3" method="POST">
+                        @csrf
+                        @method("DELETE")
+                        <input type="submit" class="btn btn-danger rounded-2 fw-semibold" value="Delete">
+                    </form>
                     </td>
-                    <td>
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                    </td>
-                    <td>
-                    </td>
-                  </tr>
+
+                  </tr> 
+                  @endforeach
                 </tbody>
               </table>            
         </div>

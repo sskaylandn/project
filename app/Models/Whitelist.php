@@ -17,3 +17,4 @@ class Whitelist extends Model
         return $this->hasMany(restore::class);
     }
 }
+ 

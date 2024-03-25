@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Akuisisi;
 use App\Models\Detailakuisisi;
+use App\Models\Pemegangaset;
 use Illuminate\Http\Request;
 
 class AkuisisiController extends Controller
@@ -56,9 +57,10 @@ class AkuisisiController extends Controller
 
     public function aset()
     {
+        $data_aset = Pemegangaset::all();
         return view('admin.akuisisi.aset',[
             'title'=>'Daftar Pemegang Aset'
-        ]);
+        ],compact('data_aset'));
     }
 
     public function tambahaset()
@@ -66,6 +68,32 @@ class AkuisisiController extends Controller
         return view('admin.akuisisi.tambahaset',[
             'title'=>'Daftar Pemegang Aset'
         ]);
+    }
+
+    public function storeaset(Request $request)
+    {
+        Pemegangaset::create([
+            'nama_pemegang' => $request->nama_pemegang,
+            'nama_perangkat' => $request->nama_perangkat,
+            
+        ]);
+
+        return redirect('admin/aset-akuisisi');
+    }
+ 
+    public function editaset(string $id)
+    {
+        $aset = Pemegangaset::findorfail($id);
+        return view('admin.akuisisi.editaset',[
+            'title' => 'Edit Data Pemegang Aset'
+        ],compact('aset'));
+    }
+
+    public function updateaset(Request $request, string $id)
+    {
+        $aset = Pemegangaset::findorfail($id);
+         $aset->update($request->all());
+         return redirect('admin/aset-akuisisi');
     }
 
     /**
@@ -106,5 +134,12 @@ class AkuisisiController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function destroyaset(string $id)
+    {
+        $aset = Pemegangaset::findorfail($id);
+        $aset->delete();
+        return redirect('admin/aset-akuisisi');
     }
 }

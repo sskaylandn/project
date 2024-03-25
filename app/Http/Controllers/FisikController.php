@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Fisik;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+ 
 class FisikController extends Controller
 {
     /**
@@ -73,10 +73,18 @@ class FisikController extends Controller
      */
     public function edit(string $id)
     {
-        $fisik = Fisik::findorfail($id);
-        return view('user.fisik.edit',[
-            'title' => 'Edit Data Perawatan Utilitas'
-        ],compact('fisik'));
+        if(Auth()->user()->role == 'admin'){
+            $fisik = Fisik::findorfail($id);
+            return view('admin.fisik.edit',[
+                'title'=>'Perawatan Utilitas'
+            ],compact('fisik'));
+        }
+        elseif(Auth()->user()->role == 'user'){
+            $fisik = Fisik::findorfail($id);
+            return view('user.fisik.edit',[
+                'title'=>'Perawatan Utilitas'  
+            ],compact('fisik'));
+        }
     } 
 
     /**
@@ -87,7 +95,13 @@ class FisikController extends Controller
      {
          $fisik = Fisik::findorfail($id);
          $fisik->update($request->all());
-         return redirect('user/index-fisik');
+
+         if (Auth::user()->role == 'admin') {
+            return redirect('admin/index-fisik');
+        } 
+        elseif(Auth::user()->role == 'user'){
+            return redirect('user/index-fisik');
+        }
      }
     
 
@@ -96,6 +110,8 @@ class FisikController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $fisik = Fisik::findorfail($id);
+        $fisik->delete();
+        return redirect('admin/index-fisik');
     }
-}
+} 

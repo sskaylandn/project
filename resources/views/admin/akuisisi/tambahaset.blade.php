@@ -14,18 +14,19 @@
                       <small class="text-muted float-end">{{ $title }}</small>
                     </div>
                     <div class="card-body">
-                      
+                    <form action="{{ url('admin/storeaset-akuisisi')}}" method="post">
+                        @csrf
                         <form>
                             <div class="row mb-3">
                               <label class="col-sm-2 col-form-label" for="basic-default-name">Nama Pemegang Aset</label>
                               <div class="col-sm-10">
-                                <input type="text" class="form-control" id="basic-default-name" placeholder="">
+                                <input type="text" class="form-control" name="nama_pemegang" id="basic-default-name" placeholder="">
                               </div>
                             </div>
                             <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="basic-default-name">Nama Perangkat</label>
                                 <div class="col-sm-10">
-                                  <input type="text" class="form-control" id="basic-default-name" placeholder="">
+                                  <input type="text" class="form-control" name="nama_perangkat" id="basic-default-name" placeholder="">
                                 </div>
                               </div>
                                 <div class="">

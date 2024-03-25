@@ -12,33 +12,35 @@
                     <div class="card-header d-flex align-items-center justify-content-between">
                       <h5 class="mb-0"></h5>
                       <small class="text-muted float-end">{{ $title }}</small>
-                    </div>
+                    </div> 
                     <div class="card-body">
+                    <form action="{{ url('user/submit-whitelist')}}" method="post">
+                        @csrf
                         <form>
-                            <div class="row mb-3">
+                            <div class="row mb-3"> 
                               <label class="col-sm-2 col-form-label" for="basic-default-message">Jenis Software</label>
                               <div class="col-sm-10">
-                                    <select id="defaultSelect" class="form-select">
+                                    <select id="defaultSelect" name="jenis_software" class="form-select">
                                       <option>Pilih Salah Satu</option>
-                                      <option value="1">Operating System</option>
-                                      <option value="2">Antivirus</option>
-                                      <option value="3">Design</option>
-                                      <option value="3">Browser</option>
-                                      <option value="3">Text Editor</option>
-                                      <option value="3">Remote</option>
-                                      <option value="3">API Tester</option>
-                                      <option value="3">SQL Client</option>
-                                      <option value="3">Communication</option>
-                                      <option value="3">Office</option>
-                                      <option value="3">Development</option>
-                                      <option value="3">Server</option>
+                                      <option value="Operating System">Operating System</option>
+                                      <option value="Antivirus">Antivirus</option>
+                                      <option value="Design">Design</option>
+                                      <option value="Browser">Browser</option>
+                                      <option value="Text Editor">Text Editor</option>
+                                      <option value="Remote">Remote</option>
+                                      <option value="API Tester">API Tester</option>
+                                      <option value="SQL Client">SQL Client</option>
+                                      <option value="Communication">Communication</option>
+                                      <option value="Office">Office</option>
+                                      <option value="Development">Development</option>
+                                      <option value="Server">Server</option>
                                     </select>
                                   </div>
                               </div>
                               <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label" for="basic-default-name">Nama Software</label>
                                 <div class="col-sm-10">
-                                  <input type="text" class="form-control" id="basic-default-name" placeholder="">
+                                  <input type="text" class="form-control" name="nama_software" id="basic-default-name" placeholder="">
                                 </div>
                               </div>
                              
