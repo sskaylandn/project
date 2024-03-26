@@ -115,14 +115,12 @@ Route::middleware(['auth'])->group(function(){
     // routing akuisisi user
     // masuk ke halaman index akuisisi user
     Route::get('user/index-akuisisi', [AkuisisiController::class, 'index']);
-    // masuk ke halaman tambah detail monitoring akuisisi user
-    Route::get('user/detailmonitoring-akuisisi', [AkuisisiController::class, 'indexdetail']);
-    // masuk ke halaman tambah detail akuisisi user
-    Route::get('user/tambahdetail-akuisisi/{id}', [AkuisisiController::class, 'tambahdetail']);
-      // submit form yang telah di isi
-      Route::post('user/submitdetail-akuisisi', [AkuisisiController::class, 'storedetail']);
     // masuk ke halaman detail akuisisi user
     Route::get('user/detail-akuisisi/{id}', [AkuisisiController::class, 'detail']);
+    //masuk ke halaman edit detail akuisisi user
+   Route::get('user/editdetail-akuisisi/{id}', [AkuisisiController::class, 'editdetail']);
+   //masuk ke halaman edit detail akuisisi user
+   Route::post('user/updatedetail-akuisisi/{id}', [AkuisisiController::class, 'updatedetail']);
     // masuk ke halaman form user
     Route::get('user/create-akuisisi', [AkuisisiController::class, 'create']);
     // submit form yang telah di isi
@@ -192,6 +190,17 @@ Route::middleware(['auth'])->group(function(){
      // masuk ke halaman editaset akuisisi
      Route::get('admin/edit-aset/{id}', [AkuisisiController::class, 'editaset']);
      Route::post('admin/update-aset/{id}', [AkuisisiController::class, 'updateaset']);
+     // masuk ke halaman detail akuisisi admin
+    Route::get('admin/detail-akuisisi/{id}', [AkuisisiController::class, 'detail']);
+    //masuk ke halaman edit detail akuisisi admin
+    Route::get('admin/editdetail-akuisisi/{id}', [AkuisisiController::class, 'editdetail']);
+    //masuk ke halaman edit detail akuisisi admin
+    Route::post('admin/updatedetail-akuisisi/{id}', [AkuisisiController::class, 'updatedetail']);
+    // masuk ke halaman edit akuisisi
+    Route::get('admin/edit-akuisisi/{id}', [AkuisisiController::class, 'edit']);
+    Route::post('admin/update-akuisisi/{id}', [AkuisisiController::class, 'update']);
+      // menghapus riwayat akuisisi
+      Route::delete('admin/delete-akuisisi/{id}', [AkuisisiController::class, 'destroy']);
       // menghapus pemegang-aset akuisisi
      Route::delete('admin/deleteaset-akuisisi/{id}', [AkuisisiController::class, 'destroyaset']);
     // masuk ke halaman index fisik admin

@@ -67,48 +67,24 @@ class AkuisisiController extends Controller
            $query->select(Detailakuisisi::raw($id))
                ->where('detailakuisisi.id_akuisisi', $id);
        })->get();
-     
-        return view('user.akuisisi.detail',[
+
+       if(Auth()->user()->role == 'admin'){
+       
+        return view('admin.akuisisi.detail',[
             'title'=>'Monitoring Perangkat User'
         ],compact('akuisisi','detailakuisisi'));
-    }
-
-    public function tambahdetail(string $id)
-    {
-        $akuisisi = Akuisisi::findorfail($id);
-        $aset = Pemegangaset::all();
-       //$detailakuisisi = Detailakuisisi::findorfail($id);
-        // One To Many Relationship pake with(nama_function_di_model)
-      //$detailakuisisi = Detailakuisisi::with('pemegang_aset')
-      // ->whereExists(function ($query) use ($id) {
-       //    $query->select(Detailakuisisi::raw($id))
-       //        ->where('detailakuisisi.id_akuisisi', $id);
-     //  })->get();
-     
-        return view('user.akuisisi.createdetail',[
-            'title'=>'Monitoring Perangkat User'
-        ],compact('akuisisi','aset'));
-    }
- 
-    public function storedetail(Request $request, string $id)
-    {
-        Detailakuisisi::create([
-            'nama_pemegang' => $request->nama_pemegang,
-            'nama_perangkat' => $request->nama_perangkat,
-            'id_akuisisi' => $request->$id,
-            'akses_user'=>$request->akses_user,
-            'power_lock'=>$request->power_lock,
-            'sinkronisasi_waktu'=>$request->sinkronisasi_waktu,
-            'antivirus'=>$request->antivirus,
-            'update_os'=>$request->update_os,
-            'scan_malware'=>$request->scan_malware,
-            'versi_os'=>$request->versi_os,
-            'keterangan'=>$request->keterangan,
+        }
+        elseif(Auth()->user()->role == 'user'){
             
-        ]);
-
-        return redirect('user/index-akuisisi');
+            return view('user.akuisisi.detail',[
+                'title'=>'Monitoring Perangkat User'
+            ],compact('akuisisi','detailakuisisi'));
+        }
+     
+        
     }
+
+   
     public function aset()
     {
         $data_aset = Pemegangaset::all();
@@ -126,13 +102,51 @@ class AkuisisiController extends Controller
 
     public function storeaset(Request $request)
     {
-        Pemegangaset::create([
-            'nama_pemegang' => $request->nama_pemegang,
-            'nama_perangkat' => $request->nama_perangkat,
-            
-        ]);
+        
+        $data = $request->all();
+        //dd($data);
+        //$pemegangaset = new Pemegangaset;
+       // $pemegangaset->nama_pemegang = $data['nama_pemegang'];
+       // $pemegangaset->nama_perangkat = $data['nama_perangkat'];
+       //$pemegangaset ->save();
 
+      
+        if(count($data['nama_pemegang']) > 0){
+            foreach ($data['nama_pemegang'] as $item=>$value){
+                $data2=array(
+                    'nama_pemegang' => $data['nama_pemegang'][$item],
+                    'nama_perangkat' => $data['nama_perangkat'][$item],
+                );
+                Pemegangaset::create($data2);
+             }
+        }
+        
+  
         return redirect('admin/aset-akuisisi');
+         
+       // $data = $request->all();
+        //dd($data);
+        //$pemegangaset = new Pemegangaset;
+       // $pemegangaset->nama_pemegang = $data['nama_pemegang'];
+       // $pemegangaset->nama_perangkat = $data['nama_perangkat'];
+       // $pemegangaset ->save();
+
+       // if(count($data['nama_pemegang']) > 0){
+         //   foreach ($data['nama_pemegang'] as $item=>$value){
+          //      $data2=array(
+          //          'nama_pemegang' => $data['nama_pemegang'][$item],
+                   // 'nama_perangkat' => $data['nama_perangkat'][$item],
+          //      );
+           //     Pemegangaset::create($data2);
+           //  }
+        
+        //Pemegangaset::create([
+           // 'nama_pemegang' => $request->nama_pemegang,
+           // 'nama_perangkat' => $request->nama_perangkat,
+            
+       // ]);
+
+        
     }
  
     public function editaset(string $id)
@@ -143,11 +157,39 @@ class AkuisisiController extends Controller
         ],compact('aset'));
     }
 
+    public function editdetail(string $id)
+    {
+        if(Auth()->user()->role == 'admin'){
+            $detailakuisisi = Detailakuisisi::findorfail($id);
+            return view('admin.akuisisi.editdetail',[
+                'title' => 'Edit Data Pemegang Aset'
+        ],compact('detailakuisisi'));
+        }
+        elseif(Auth()->user()->role == 'user'){
+            $detailakuisisi = Detailakuisisi::findorfail($id);
+            return view('user.akuisisi.editdetail',[
+                'title' => 'Edit Data Pemegang Aset'
+            ],compact('detailakuisisi'));
+        }
+    }
+
     public function updateaset(Request $request, string $id)
     {
         $aset = Pemegangaset::findorfail($id);
          $aset->update($request->all());
          return redirect('admin/aset-akuisisi');
+    }
+    public function updatedetail(Request $request, string $id)
+    {
+        $detailakuisisi = Detailakuisisi::findorfail($id);
+        $detailakuisisi->update($request->all());
+
+        if (Auth()->user()->role == 'admin') {
+           return redirect('admin/index-akuisisi');
+       } 
+       elseif(Auth()->user()->role == 'user'){
+           return redirect('user/index-akuisisi');
+       }
     }
 
     /**
@@ -155,13 +197,42 @@ class AkuisisiController extends Controller
      */
     public function store(Request $request)
     {
-        Akuisisi::create([
-            'tgl_efektif' => $request->tgl_efektif,
-            'nomor_dokumen' => $request->nomor_dokumen,
-            'kategori_dokumen' => $request->kategori_dokumen,
-            'versi' => $request->versi,
+        $data = $request->all();
+        //dd($data);
+        $akuisisi = new Akuisisi;
+        $akuisisi->tgl_efektif = $data['tgl_efektif'];
+        $akuisisi->nomor_dokumen = $data['nomor_dokumen'];
+        $akuisisi->kategori_dokumen = $data['kategori_dokumen'];
+        $akuisisi->versi = $data['versi'];
+        $akuisisi->save();
+
+      
+        if(count($data['nama_pemegang']) > 0){
+            foreach ($data['nama_pemegang'] as $item=>$value){
+                $data2=array(
+                    'id_akuisisi' => $akuisisi->id_akuisisi,
+                    'nama_pemegang' => $data['nama_pemegang'][$item],
+                    'nama_perangkat' => $data['nama_perangkat'][$item],
+                    'akses_user'=>$data['akses_user'][$item],
+                    'power_lock'=>$data['power_lock'][$item],
+                    'sinkronisasi_waktu'=>$data['sinkronisasi_waktu'][$item],
+                    'antivirus'=>$data['antivirus'][$item],
+                    'update_os'=>$data['update_os'][$item],
+                    'scan_malware'=>$data['scan_malware'][$item],
+                    'versi_os'=>$data['versi_os'][$item],
+                    'keterangan'=>$data['keterangan'][$item],
+                );
+                Detailakuisisi::create($data2);
+             }
+        }
+        
+      //  Akuisisi::create([
+        //    'tgl_efektif' => $request->tgl_efektif,
+        //    'nomor_dokumen' => $request->nomor_dokumen,
+         //   'kategori_dokumen' => $request->kategori_dokumen,
+         //   'versi' => $request->versi,
             
-         ]); 
+        // ]); 
   
          if (Auth()->user()->role == 'admin') {
              return redirect('admin/index-akuisisi');
@@ -184,15 +255,34 @@ class AkuisisiController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        if(Auth()->user()->role == 'admin'){
+            $akuisisi = Akuisisi::findorfail($id);
+            return view('admin.akuisisi.edit',[
+                'title'=>'Edit Monitoring Perangkat User'
+            ],compact('akuisisi'));
+        }
+        elseif(Auth()->user()->role == 'user'){
+            $akuisisi = Akuisisi::findorfail($id);
+            return view('user.akuisisi.edit',[
+                'title'=>'Edit Monitoring Perangkat User'  
+            ],compact('akuisisi'));
+        }
     }
-
+ 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $akuisisi = Akuisisi::findorfail($id);
+        $akuisisi->update($request->all());
+
+        if (Auth()->user()->role == 'admin') {
+           return redirect('admin/index-akuisisi');
+       } 
+       elseif(Auth()->user()->role == 'user'){
+           return redirect('user/index-akuisisi');
+       }
     }
 
     /**
@@ -200,7 +290,18 @@ class AkuisisiController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $akuisisi = Akuisisi::findorfail($id);
+        //$detailakuisisi = Detailakuisisi::whereHas('akuisisi', function ($query) use ($id) {
+           // $query->where('detailakuisisi.id_akuisisi', $id);
+       // })->delete();
+       $detailakuisisi = Detailakuisisi::with('pemegang_aset')
+       ->whereExists(function ($query) use ($id) {
+            $query->select(Detailakuisisi::raw($id))
+                ->where('detailakuisisi.id_akuisisi', $id);
+        })->delete();
+        //dd($akuisisi);
+        $akuisisi->delete();
+        return redirect('admin/index-akuisisi');
     }
 
     public function destroyaset(string $id)

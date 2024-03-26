@@ -39,9 +39,7 @@
                             </div>
                           </div>
                           <br>
-                          <div class="row">
-                            <label class="col-form-label" for="basic-default-name">(Jika data monitoring masih kosong, silakan isi terlebih dahulu di menu "Formulir Detail Monitoring")</label> 
-                          </div>
+                        
                           <div class="table-responsive text-nowrap">
                             <table class="table">
                               <thead>
@@ -57,6 +55,7 @@
                                   <th>Scan Malware</th>
                                   <th>Versi OS</th>
                                   <th>Keterangan</th>
+                                  <th>Aksi</th>
                                 </tr>
                               </thead>
                               <tbody class="table-border-bottom-0">
@@ -74,6 +73,7 @@
                                     <td>{{$items->scan_malware}}</td>
                                     <td>{{$items->versi_os}}</td>
                                     <td>{{$items->keterangan}}</td>
+                                    <td><a href="{{ url('user/editdetail-akuisisi', $items->id_detailakuisisi) }}"><span class="btn btn-primary rounded-2 fw-semibold">Edit</span></a></td>
                                 </tr>
                               @endforeach
                               </tbody>
