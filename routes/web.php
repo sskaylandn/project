@@ -149,6 +149,7 @@ Route::middleware(['auth'])->group(function(){
     // routing whitelist user
     // masuk ke halaman index whitelist user
     Route::get('user/index-whitelist', [WhitelistController::class, 'index']);
+    
     // masuk ke halaman form user
     Route::get('user/create-whitelist', [WhitelistController::class, 'create']);
     // submit form yang telah di isi

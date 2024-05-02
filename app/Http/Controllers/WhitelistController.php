@@ -12,7 +12,7 @@ class WhitelistController extends Controller
      */
     public function index()
     {
-        $data_whitelist = Whitelist::all();
+        $data_whitelist = Whitelist::orderBy('jenis_software', 'asc')->get();
         if(Auth()->user()->role == 'admin'){
             
             return view('admin.whitelist.index',[ 
@@ -20,12 +20,15 @@ class WhitelistController extends Controller
             ],compact('data_whitelist'));
         }
         elseif(Auth()->user()->role == 'user'){
-            $data_whitelist = Whitelist::all();
+            $data_whitelist = Whitelist::orderBy('jenis_software', 'asc')->get();
             return view('user.whitelist.index',[
                 'title'=>'Software Whitelist'  
             ],compact('data_whitelist'));
         }
     }
+
+
+   
 
     /**
      * Show the form for creating a new resource.
@@ -46,7 +49,7 @@ class WhitelistController extends Controller
             'jenis_software' => $request->jenis_software,
             'nama_software' => $request->nama_software,
             
-         ]); 
+         ]);  
   
          if (Auth()->user()->role == 'admin') {
              return redirect('admin/index-whitelist');

@@ -14,7 +14,7 @@ class AkuisisiController extends Controller
      */
     public function index()
     {
-        $data_akuisisi = Akuisisi::all();
+        $data_akuisisi = Akuisisi::orderBy('tgl_efektif', 'asc')->get();
         if(Auth()->user()->role == 'admin'){
             
             return view('admin.akuisisi.index',[
@@ -22,7 +22,7 @@ class AkuisisiController extends Controller
             ],compact('data_akuisisi'));
         }
         elseif(Auth()->user()->role == 'user'){
-            $data_akuisisi = Akuisisi::all();
+            $data_akuisisi = Akuisisi::orderBy('tgl_efektif', 'asc')->get();
             return view('user.akuisisi.index',[
                 'title'=>'Riwayat Monitoring'  
             ],compact('data_akuisisi'));
